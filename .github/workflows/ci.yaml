@@ -5,14 +5,19 @@ on:
 
 jobs:
   linting:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-latest,windows-latest,macos-latest]
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3  # Updated from v1 to v3 for latest fixes and performance improvements
+        uses: actions/checkout@v3 #predefined github actions
 
       - name: Set up Python
-        uses: actions/setup-python@v4  # Updated from v2 to v4
+        uses: actions/setup-python@v4 
         with:
           python-version: '3.9'
           
@@ -22,4 +27,4 @@ jobs:
           pip install flake8
           
       - name: Run flake8
-        run: flake8 app.py  # Cleaned to a one-liner (multi-line okay too, but not needed here)
+        run: flake8 app.py
